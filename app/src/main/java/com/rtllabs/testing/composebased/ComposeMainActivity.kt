@@ -27,34 +27,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rtllabs.testing.composebased.ui.theme.TestingTheme
 import com.rtllabs.testing.data.PostRepoImpl
 import com.rtllabs.testing.domain.GetUseCasePost
 import com.rtllabs.testing.domain.Posts
 import com.rtllabs.testing.presentation.PostViewModel
-import com.rtllabs.testing.presentation.PostViewModelFactory
 import com.rtllabs.testing.presentation.UiState
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-
+@AndroidEntryPoint
 class ComposeMainActivity : ComponentActivity() {
-    private val factoryLazy: PostViewModelFactory by lazy {
+   /* private val factoryLazy: PostViewModelFactory by lazy {
         val repository= PostRepoImpl()
         val getUseCasePost= GetUseCasePost(repository)
         PostViewModelFactory(getUseCasePost)
-    }
+    }*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val viewmodel= ViewModelProvider.create(this,factoryLazy).get(PostViewModel::class.java)
-        setContent {
+       // val viewmodel= ViewModelProvider.create(this,factoryLazy).get(PostViewModel::class.java)
+      // val viewmodel:PostViewModel = hiltViewModel()
+
+       setContent {
             TestingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding),
-                        viewmodel
                     )
                 }
             }
@@ -63,7 +66,7 @@ class ComposeMainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, viewmodel: PostViewModel) {
+fun Greeting(name: String, modifier: Modifier = Modifier, viewmodel: PostViewModel= hiltViewModel()) {
     PostScreen(modifier,viewmodel)
 }
 
@@ -99,7 +102,6 @@ fun PostList(modifier: Modifier, posts: List<Posts>) {
     ) {
         items(posts.size){ pos->
                     PostItem(posts[pos])
-
                     HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
         }
 

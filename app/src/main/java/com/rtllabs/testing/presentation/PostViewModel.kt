@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rtllabs.testing.domain.GetUseCasePost
 import com.rtllabs.testing.domain.Posts
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PostViewModel(val getUseCasePost: GetUseCasePost): ViewModel() {
+@HiltViewModel
+class PostViewModel @Inject constructor(val getUseCasePost: GetUseCasePost): ViewModel() {
     private val _post= MutableStateFlow<UiState<List<Posts>>>(UiState.Loading)
     val post: StateFlow<UiState<List<Posts>>> =_post.asStateFlow()
 

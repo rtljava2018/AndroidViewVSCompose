@@ -24,11 +24,11 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var postAdapter: PostAdapter
     private lateinit var viewModel: PostViewModel
-    private val factoryLazy: PostViewModelFactory by lazy {
+    /*private val factoryLazy: PostViewModelFactory by lazy {
         val repository= PostRepoImpl()
         val getUseCasePost= GetUseCasePost(repository)
         PostViewModelFactory(getUseCasePost)
-    }
+    }*/
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        viewModel= ViewModelProvider.create(this, factoryLazy).get(PostViewModel::class.java)
+        viewModel= ViewModelProvider.create(this).get(PostViewModel::class.java)
         postAdapter= PostAdapter()
 
         findViewById<RecyclerView>(R.id.rv_view).apply {
